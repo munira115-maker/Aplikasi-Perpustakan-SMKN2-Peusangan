@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katalog Buku - SMKN 2 Peusangan</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f8f9fa; color: #333; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; background: #ffffff; padding: 12px 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 100; }
+        .brand { display: flex; align-items: center; gap: 12px; }
+        .brand img { height: 45px; }
+        .brand-text h2 { font-size: 16px; color: #0d47a1; font-weight: 700; }
+        .brand-text p { font-size: 12px; color: #666; }
+        .user-nav { display: flex; align-items: center; gap: 12px; }
+        .user-info { font-size: 14px; font-weight: 600; color: #0d47a1; }
+        .btn-kartu { background-color: #17a2b8; color: white; padding: 8px 16px; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 13px; transition: 0.2s; }
+        .btn-kartu:hover { background-color: #138496; }
+        .btn-logout { background-color: #dc3545; color: white; padding: 8px 18px; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 14px; }
+        .hero { position: relative; height: 160px; background: linear-gradient(rgba(13, 71, 161, 0.75), rgba(10, 37, 77, 0.85)), url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1200') center/cover no-repeat; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; padding: 0 20px; }
+        .container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
+        .admin-box { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 30px; border-left: 5px solid #0d47a1; }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .btn-report { background: #17a2b8; color: white; padding: 8px 15px; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 13px; }
+        .btn-report:hover { background: #138496; }
+        .form-row { display: flex; gap: 10px; }
+        .form-row input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 6px; }
+        .btn-add { background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; }
+        .excel-box { margin-top: 20px; padding-top: 15px; border-top: 1px dashed #ccc; }
+        .excel-form { display: flex; gap: 10px; align-items: center; margin-top: 8px; }
+        .btn-excel { background: #20c997; color: white; border: none; padding: 8px 16px; border-radius: 5px; font-weight: bold; cursor: pointer; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px; margin-bottom: 40px; }
+        .card { background: white; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #edf2f7; }
+        .card-body { padding: 20px; }
+        .card-title { font-size: 16px; font-weight: 700; color: #1a202c; margin-bottom: 8px; }
+        .card-author { font-size: 13px; color: #718096; }
+        .card-footer { padding: 12px 20px; background: #f7fafc; border-top: 1px solid #edf2f7; display: flex; justify-content: space-between; align-items: center; }
+        .badge { background: #e6fffa; color: #234e52; border: 1px solid #b2f5ea; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .btn-pinjam { background: #0d47a1; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .btn-pinjam:hover { background: #0a3578; }
+        .history-box { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { text-align: left; padding: 12px; border-bottom: 1px solid #e0e0e0; font-size: 14px; }
+        th { background: #f1f5f9; color: #334155; }
+        .action-cell { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+        .btn-act { padding: 5px 10px; border-radius: 4px; font-weight: 600; cursor: pointer; border: none; font-size: 12px; }
+        .btn-approve { background: #28a745; color: white; }
+        .btn-return-user { background: #fd7e14; color: white; }
+        .btn-delete { background: #dc3545; color: white; }
+        .btn-delete:hover { background: #bd2130; }
+        .select-status { padding: 4px; font-size: 12px; border-radius: 4px; border: 1px solid #ccc; }
+        footer { text-align: center; padding: 20px; color: #718096; font-size: 13px; margin-top: 40px; background: white; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="brand">
+            <img src="/images/logo.png" alt="Logo SMKN 2 Peusangan">
+            <div class="brand-text">
+                <h2>Sistem Informasi Perpustakaan</h2>
+                <p>SMK Negeri 2 Peusangan</p>
+            </div>
+        </div>
+        <div class="user-nav">
+            <span class="user-info">Halo, <%= user.nama || 'Pengguna' %> (<%= user.role ? user.role.toUpperCase() : '' %> <%= user.kelas && user.kelas !== '-' ? '- ' + user.kelas : '' %>)</span>
+            
+            <!-- TOMBOL CETAK KARTU ANGGOTA -->
+            <a href="/kartu-anggota" target="_blank" class="btn-kartu">🪪 Cetak Kartu Anggota</a>
+            
+            <a href="/logout" class="btn-logout">Keluar</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <h1>Dashboard Perpustakaan Online</h1>
+        <p>Layanan Peminjaman & Pengembalian Buku SMKN 2 Peusangan</p>
+    </header>
+
+    <main class="container">
+
+        <% if (user.role === 'admin') { %>
+            <div class="admin-box">
+                <div class="admin-header">
+                    <h3 style="color: #0d47a1;">+ Tambah Koleksi Buku Baru</h3>
+                    <a href="/admin/laporan" target="_blank" class="btn-report">
+                        📄 Cetak Laporan Kepsek
+                    </a>
+                </div>
+                <form action="/admin/tambah-buku" method="POST" class="form-row">
+                    <input type="text" name="judul" placeholder="Judul Buku" required>
+                    <input type="text" name="pengarang" placeholder="Nama Pengarang" required>
+                    <input type="number" name="stok" placeholder="Jumlah Stok" style="width: 120px;" required>
+                    <button type="submit" class="btn-add">Simpan Buku</button>
+                </form>
+
+                <!-- FORM IMPORT EXCEL -->
+                <div class="excel-box">
+                    <h4 style="color: #0d47a1;">📥 Import Massal Data Guru & Siswa dari Excel</h4>
+                    <p style="font-size: 12px; color: #666; margin-top: 3px;">Header Kolom: <b>nis_nip</b> | <b>nama</b> | <b>password</b> | <b>role</b> (guru/siswa) | <b>kelas</b></p>
+                    <form action="/admin/import-users" method="POST" enctype="multipart/form-data" class="excel-form">
+                        <input type="file" name="file_excel" accept=".xlsx, .xls" required style="padding: 6px; background: #fff; border: 1px solid #ccc; border-radius: 5px;">
+                        <button type="submit" class="btn-excel">Upload & Daftarkan</button>
+                    </form>
+                </div>
+            </div>
+        <% } %>
+
+        <h3 style="margin-bottom: 20px;">Daftar Koleksi Buku</h3>
+        <div class="grid">
+            <% books.forEach(book => { %>
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title"><%= book.judul %></h3>
+                        <p class="card-author">Pengarang: <%= book.pengarang %></p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="badge">Stok: <%= book.stok %></span>
+                        <form action="/pinjam/<%= book.id %>" method="POST" style="margin: 0;">
+                            <button type="submit" class="btn-pinjam" <%= book.stok <= 0 ? 'disabled style="background:#ccc; cursor:not-allowed;"' : '' %>>
+                                <%= book.stok > 0 ? 'Ajukan Pinjam' : 'Habis' %>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+
+        <div class="history-box">
+            <h3>📋 Status & Riwayat Peminjaman <%= user.role === 'admin' ? '(Panel Kontrol Admin)' : 'Saya' %></h3>
+            <% if (history.length === 0) { %>
+                <p style="margin-top: 10px; color: #777;">Belum ada pengajuan peminjaman.</p>
+            <% } else { %>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Peminjam</th>
+                            <th>Kelas / Jabatan</th>
+                            <th>Judul Buku</th>
+                            <th>Tanggal</th>
+                            <th>Status saat ini</th>
+                            <th>Aksi / Tindakan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% history.forEach(item => { %>
+                            <tr>
+                                <td><b><%= item.nama %></b></td>
+                                <td><%= item.kelas || '-' %></td>
+                                <td><%= item.judul %></td>
+                                <td><%= new Date(item.tanggal_pinjam).toLocaleDateString('id-ID') %></td>
+                                <td>
+                                    <% if (item.status === 'menunggu_persetujuan') { %>
+                                        <span style="color: #d97706; font-weight: bold;">Menunggu Persetujuan</span>
+                                    <% } else if (item.status === 'dipinjam') { %>
+                                        <span style="color: #2563eb; font-weight: bold;">Sedang Dipinjam</span>
+                                    <% } else if (item.status === 'proses_pengembalian') { %>
+                                        <span style="color: #dc2626; font-weight: bold;">Proses Pengembalian</span>
+                                    <% } else { %>
+                                        <span style="color: #16a34a; font-weight: bold;">Dikembalikan</span>
+                                    <% } %>
+                                </td>
+                                <td>
+                                    <div class="action-cell">
+                                        <% if (user.role !== 'admin') { %>
+                                            <% if (item.status === 'dipinjam') { %>
+                                                <form action="/ajukan-kembali/<%= item.pinjam_id %>" method="POST" style="margin: 0;">
+                                                    <button type="submit" class="btn-act btn-return-user">Kembalikan</button>
+                                                </form>
+                                            <% } %>
+
+                                            <% if (item.status === 'menunggu_persetujuan') { %>
+                                                <form action="/pinjam/delete/<%= item.pinjam_id %>" method="POST" onsubmit="return confirm('Yakin ingin membatalkan pengajuan ini?');" style="margin: 0;">
+                                                    <button type="submit" class="btn-act btn-delete">Batal/Hapus</button>
+                                                </form>
+                                            <% } %>
+                                        <% } %>
+
+                                        <% if (user.role === 'admin') { %>
+                                            <% if (item.status === 'menunggu_persetujuan') { %>
+                                                <form action="/admin/setujui-pinjam/<%= item.pinjam_id %>" method="POST" style="margin: 0;">
+                                                    <button type="submit" class="btn-act btn-approve">Setujui</button>
+                                                </form>
+                                            <% } else if (item.status === 'proses_pengembalian') { %>
+                                                <form action="/admin/konfirmasi-kembali/<%= item.pinjam_id %>" method="POST" style="margin: 0;">
+                                                    <button type="submit" class="btn-act btn-approve">Konfirmasi Terima</button>
+                                                </form>
+                                            <% } %>
+
+                                            <form action="/admin/edit-status/<%= item.pinjam_id %>" method="POST" style="margin: 0; display: inline-flex; gap: 3px;">
+                                                <select name="status_baru" class="select-status">
+                                                    <option value="menunggu_persetujuan" <%= item.status === 'menunggu_persetujuan' ? 'selected' : '' %>>Menunggu</option>
+                                                    <option value="dipinjam" <%= item.status === 'dipinjam' ? 'selected' : '' %>>Dipinjam</option>
+                                                    <option value="proses_pengembalian" <%= item.status === 'proses_pengembalian' ? 'selected' : '' %>>Proses Kembali</option>
+                                                    <option value="dikembalikan" <%= item.status === 'dikembalikan' ? 'selected' : '' %>>Dikembalikan</option>
+                                                </select>
+                                                <button type="submit" class="btn-act" style="background: #6c757d; color: white;">Edit</button>
+                                            </form>
+
+                                            <form action="/pinjam/delete/<%= item.pinjam_id %>" method="POST" onsubmit="return confirm('Hapus data transaksi ini secara permanen?');" style="margin: 0;">
+                                                <button type="submit" class="btn-act btn-delete">Hapus</button>
+                                            </form>
+                                        <% } %>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            <% } %>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>© 2026 SMKN 2 Peusangan - Bireuen, Aceh.</p>
+    </footer>
+
+</body>
+</html>

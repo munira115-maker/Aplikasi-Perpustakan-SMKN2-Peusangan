@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Perpustakaan SMKN 2 Peusangan</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { 
+            background: linear-gradient(rgba(10, 37, 77, 0.75), rgba(13, 71, 161, 0.85)), 
+                        url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1200') center/cover no-repeat;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .login-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 420px;
+            padding: 35px 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .logo { width: 70px; height: auto; margin-bottom: 15px; }
+        .title { font-size: 20px; color: #0d47a1; font-weight: 700; margin-bottom: 4px; }
+        .subtitle { font-size: 14px; color: #666; margin-bottom: 25px; }
+        .form-group { text-align: left; margin-bottom: 18px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 600; color: #333; margin-bottom: 6px; }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: 0.2s;
+            background-color: #f8fafc;
+        }
+        .form-group input:focus {
+            border-color: #0d47a1;
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.1);
+        }
+        .btn-login {
+            width: 100%;
+            background: #0d47a1;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 10px;
+        }
+        .btn-login:hover { background: #0a3578; }
+        .footer-text { font-size: 12px; color: #888; margin-top: 25px; }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <img src="/images/logo.png" alt="Logo SMKN 2 Peusangan" class="logo">
+        <h1 class="title">Sistem Informasi Perpustakaan</h1>
+        <p class="subtitle">SMK Negeri 2 Peusangan</p>
+
+        <!-- Tambahkan autocomplete="off" di form -->
+        <form action="/login" method="POST" autocomplete="off">
+            
+            <div class="form-group">
+                <label for="nis_nip">NIS / NIP</label>
+                <!-- Tambahkan autocomplete="username" dan value kosong -->
+                <input type="text" id="nis_nip" name="nis_nip" placeholder="Masukkan NIS atau NIP" required autocomplete="username" value="">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <!-- Tambahkan autocomplete="new-password" agar browser tidak otomatis mengisikan password tersimpan -->
+                <input type="password" id="password" name="password" placeholder="Masukkan Password" required autocomplete="new-password" value="">
+            </div>
+
+            <button type="submit" class="btn-login">Masuk ke Sistem</button>
+
+        </form>
+
+        <p class="footer-text">© 2026 SMKN 2 Peusangan</p>
+    </div>
+
+</body>
+</html>

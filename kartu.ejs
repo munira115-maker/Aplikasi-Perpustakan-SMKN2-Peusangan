@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kartu Anggota - <%= user.nama %></title>
+    <!-- Library JSBarcode untuk membuat Barcode otomatis -->
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+        body { 
+            background: #f1f5f9; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            min-height: 100vh; 
+            padding: 20px; 
+        }
+
+        /* Ukuran Kartu ID Card Standar (Ratio 85.6mm x 53.9mm) */
+        .card-container {
+            width: 360px;
+            height: 225px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            overflow: hidden;
+            border: 1px solid #cbd5e1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #0d47a1, #1565c0);
+            color: white;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-header img { height: 36px; width: auto; }
+        .card-header .header-text h3 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+        .card-header .header-text p { font-size: 8.5px; opacity: 0.9; }
+
+        .card-body {
+            padding: 12px 15px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .avatar {
+            width: 65px;
+            height: 80px;
+            background: #f1f5f9;
+            border: 2px solid #0d47a1;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: #64748b;
+        }
+
+        .user-details { font-size: 11px; color: #334155; line-height: 1.5; }
+        .user-details strong { color: #0d47a1; }
+
+        .card-footer {
+            background: #f8fafc;
+            padding: 6px 10px;
+            border-top: 1px dashed #cbd5e1;
+            text-align: center;
+        }
+
+        #barcode { max-width: 90%; height: 35px; }
+
+        .btn-print {
+            margin-top: 25px;
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: 0.2s;
+        }
+
+        .btn-print:hover { background: #218838; }
+
+        /* Menyembunyikan tombol cetak saat proses print */
+        @media print {
+            body { background: white; padding: 0; }
+            .btn-print { display: none; }
+            .card-container { box-shadow: none; border: 1px solid #000; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card-container">
+        <div class="card-header">
+            <img src="/images/logo.png" alt="Logo SMKN 2 Peusangan">
+            <div class="header-text">
+                <h3>KARTU ANGGOTA PERPUSTAKAAN</h3>
+                <p>SMK NEGERI 2 PEUSANGAN</p>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="avatar">👤</div>
+            <div class="user-details">
+                <p><strong>Nama:</strong> <%= user.nama %></p>
+                <p><strong>NIS / NIP:</strong> <%= user.nis_nip %></p>
+                <p><strong>Status:</strong> <%= user.role.toUpperCase() %></p>
+                <p><strong>Kelas:</strong> <%= user.kelas || '-' %></p>
+            </div>
+        </div>
+
+        <div class="card-footer">
+            <svg id="barcode"></svg>
+        </div>
+    </div>
+
+    <button onclick="window.print()" class="btn-print">🖨️ Cetak Kartu</button>
+
+    <script>
+        // Otomatis generate Barcode berdasarkan NIS/NIP user
+        JsBarcode("#barcode", "<%= user.nis_nip %>", {
+            format: "CODE128",
+            displayValue: false,
+            height: 30,
+            margin: 0
+        });
+    </script>
+</body>
+</html>
